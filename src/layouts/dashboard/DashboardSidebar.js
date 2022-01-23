@@ -57,9 +57,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
+        {/* <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
           <Logo />
-        </Box>
+        </Box> */}
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
@@ -94,7 +94,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             bgcolor: 'grey.200'
           }}
         >
-          <Box
+          {/* <Box
             component="img"
             src="/static/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
@@ -116,7 +116,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             variant="contained"
           >
             Upgrade to Pro
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Scrollbar>

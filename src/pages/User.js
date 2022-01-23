@@ -33,11 +33,11 @@ import USERLIST from '../_mocks_/user';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
+  // { id: 'company', label: 'Company', alignRight: false },
+  { id: 'emailid', label: 'Email ID', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'action', label: 'Action', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -132,7 +132,7 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="User | Music-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -197,7 +197,7 @@ export default function User() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{company}</TableCell>
+                          {/* <TableCell align="left">{company}</TableCell> */}
                           <TableCell align="left">{role}</TableCell>
                           <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                           <TableCell align="left">
@@ -209,7 +209,7 @@ export default function User() {
                             </Label>
                           </TableCell>
 
-                          <TableCell align="right">
+                          <TableCell align="left">
                             <UserMoreMenu />
                           </TableCell>
                         </TableRow>
