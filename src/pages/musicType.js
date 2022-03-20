@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useState,useEffect } from "react";
 // material
 import { Icon } from "@iconify/react";
 import { Button } from "@mui/material";
@@ -14,20 +14,21 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
 import searchFill from "@iconify/icons-eva/search-fill";
 import { styled } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
 import plusFill from "@iconify/icons-eva/plus-fill";
-import AddArtist from './AddArtist';
+// components
 import { Link as RouterLink } from "react-router-dom";
 import Page from "../components/Page";
-import {getAllArtistData} from '../action/artistActions'
-import { ProductList, ProductSort } from "../components/_dashboard/products";
+import { MusicList, ProductSort } from "../components/_dashboard/products";
 //
 import PRODUCTS from "../_mocks_/products";
+import { getAllTypesData } from "../action/typeActions";
+import AddType from "./AddType";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 250,
+  width: 240,
   transition: theme.transitions.create(["box-shadow", "width"], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -44,7 +45,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 export default function EcommerceShop() {
   const [openFilter, setOpenFilter] = useState(false);
   const [modal, setModal] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -60,8 +61,8 @@ export default function EcommerceShop() {
   });
 
   useEffect(() => {
-    dispatch(getAllArtistData());
-  },[])
+    dispatch(getAllTypesData());
+  }, []);
 
   const { resetForm, handleSubmit } = formik;
 
@@ -78,43 +79,43 @@ export default function EcommerceShop() {
     resetForm();
   };
 
-
   return (
-    <Page title="Dashboard: Artist | Music-UI">
+    <Page title="Dashboard: Types | Music-UI">
       <Container>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h4" sx={{ mb: 5 }} style={{marginTop:'10px'}}>
-            Artist
+          <Typography variant="h4" sx={{ mb: 5 }} style={{ marginTop: "10px" }}>
+            Types
           </Typography>
-          <div style={{paddingBottom:'50px'}}>
-          <SearchStyle
-            placeholder="Search Artist..."
-            startAdornment={
-              <InputAdornment position="start">
-                <Box
-                  component={Icon}
-                  icon={searchFill}
-                  sx={{ color: "text.disabled" }}
-                />
-              </InputAdornment>
-            }
-          />
+          <div style={{ paddingBottom: "50px" }}>
+            <SearchStyle
+              // value={filterName}
+              // onChange={onFilterName}
+              placeholder="Search Types..."
+              startAdornment={
+                <InputAdornment position="start">
+                  <Box
+                    component={Icon}
+                    icon={searchFill}
+                    sx={{ color: "text.disabled" }}
+                  />
+                </InputAdornment>
+              }
+            />
           </div>
           <Button
             variant="contained"
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
-            style={{ height: "100%",marginTop:'10px' }}
+            style={{ height: "100%", marginTop: "10px" }}
             onClick={() => setModal(true)}
           >
-            New Artist
+            New Type
           </Button>
         </div>
-        <ProductList products={PRODUCTS} />
+        <MusicList products={PRODUCTS} />
       </Container>
-      <AddArtist toggleModal={() => setModal(!modal)} modalOpen={modal} />
+      <AddType toggleModal={() => setModal(!modal)} modalOpen={modal} />
     </Page>
-    
   );
 }

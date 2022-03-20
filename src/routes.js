@@ -1,3 +1,4 @@
+
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -7,13 +8,18 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import Products from './pages/Products';
+import MusicType from './pages/musicType'
 import Blog from './pages/Blog';
+import Songs from './pages/musicList'
 import User from './pages/User';
 import NotFound from './pages/Page404';
+import ArtistDetail from './components/artistDetail/artistDetail';
+
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+
   return useRoutes([
     {
       path: '/dashboard',
@@ -23,7 +29,10 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'musictype', element: <MusicType /> },
+        { path: 'songList', element: <Songs /> },
+        { path: 'blog', element: <Blog /> },
+        { path: 'artistPage', element: <ArtistDetail /> }
       ]
     },
     {

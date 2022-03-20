@@ -1,24 +1,30 @@
 // scroll bar
-import 'simplebar/src/simplebar.css';
+import "simplebar/src/simplebar.css";
+import { Provider } from "react-redux";
+import { createStore,applyMiddleware,compose } from "redux";
+import thunk from "redux-thunk" 
 
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
+import reducer from "./store";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import reportWebVitals from "./reportWebVitals";
 
-//
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import reportWebVitals from './reportWebVitals';
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
-// ----------------------------------------------------------------------
 
 ReactDOM.render(
   <HelmetProvider>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </HelmetProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to enable client cache, register instead.
