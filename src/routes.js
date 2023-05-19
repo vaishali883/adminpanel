@@ -14,6 +14,7 @@ import Songs from './pages/musicList'
 import User from './pages/User';
 import NotFound from './pages/Page404';
 import ArtistDetail from './components/artistDetail/artistDetail';
+import TypePage from './components/typeDetail/typeDetail'
 
 
 // ----------------------------------------------------------------------
@@ -32,7 +33,8 @@ export default function Router() {
         { path: 'musictype', element: <MusicType /> },
         { path: 'songList', element: <Songs /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'artistPage', element: <ArtistDetail /> }
+        { path: 'artistPage', element: <ArtistDetail /> },
+        { path: 'typePage', element: <TypePage /> }
       ]
     },
     {
@@ -42,7 +44,7 @@ export default function Router() {
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '/', element: <Navigate to="/login" /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },

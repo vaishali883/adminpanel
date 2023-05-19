@@ -57,7 +57,7 @@ ProductList.propTypes = {
 export default function ProductList({ products, ...other }) {
   const data = useSelector(state => state.type.typeData)
   return (
-    <Grid container spacing={3} {...other}>
+    <Grid  container spacing={3} {...other}>
       {data.length > 0  ? data.map((product) => (
         <Grid key={product._id} item xs={12} sm={6} md={3}>
           <MusicTypeCard product={product} />

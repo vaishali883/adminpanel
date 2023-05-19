@@ -26,7 +26,7 @@ export default function RegisterForm() {
   };
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string()
+    user_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("User name required"),
@@ -48,7 +48,7 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      navigate("/dashboard", { replace: true });
+      save()
     },
   });
 
@@ -67,7 +67,7 @@ export default function RegisterForm() {
         setOpen(true);
         setMsg("User Sign Up Successfully!");
         setSeverity("success");
-        navigate('/dashboard/app')
+        navigate("/login", { replace: true });
       })
       .catch(() => {
         setOpen(true);
@@ -105,6 +105,7 @@ export default function RegisterForm() {
               {...getFieldProps("email")}
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
+
             />
 
             <TextField

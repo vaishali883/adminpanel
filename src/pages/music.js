@@ -1,5 +1,5 @@
 
-  $(".list .list_block .play_btn .play_icon").on("click", function (current) {
+  $(".list_block .play_btn .play_icon").on("click", function (current) {
     $(this).parent().find(".play_icon").css("display", "none");
     $(this).parent().find(".pause_icon").css("display", "inline-block");
     $(".play_icon")
@@ -39,7 +39,7 @@
     $(this).parent().parent().find(".track audio")[0].play();
   });
 
-  $(".list .list_block .play_btn .pause_icon").on("click", function () {
+  $(".list_block .play_btn .pause_icon").on("click", function () {
     $(this).parent().find(".pause_icon").css("display", "none");
     $(this).parent().find(".play_icon").css("display", "inline-block");
 

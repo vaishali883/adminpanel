@@ -21,7 +21,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
-  height: 450,
+  height: 530,
   bgcolor: "background.paper",
   textAlign: "center",
   color: "black",
@@ -36,6 +36,8 @@ const AddArtist = ({ modalOpen, toggleModal }) => {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
+  const [isFormInvalidName, setIsFormInvalidCName] = useState(false);
+  const [isFormInvalidEmail, setIsFormInvalidEmail] = useState(false);
 
   const [value, setValue] = React.useState("active");
 
@@ -49,10 +51,21 @@ const AddArtist = ({ modalOpen, toggleModal }) => {
   };
 
   const save = () => {
+    if (artistname === "") {
+      setIsFormInvalidCName(true);
+    } else {
+      setIsFormInvalidCName(false);
+    }
+    if (email === "") {
+      setIsFormInvalidEmail(true);
+    } else {
+      setIsFormInvalidEmail(false);
+    }
     const data = new FormData();
     data.append("artist_name",artistname);
     data.append("Email",email);
     data.append("artist_Image",image);
+    if(!(artistname === "") && !(email === "") && image){
     axios
       .post("http://localhost:4000/artist/", data,{
         headers: {
@@ -69,6 +82,7 @@ const AddArtist = ({ modalOpen, toggleModal }) => {
         setMsg("Oops!! Something went wrong!!");
         setSeverity("error");
       });
+    }
   };
 
   console.log(image)
@@ -122,6 +136,8 @@ const AddArtist = ({ modalOpen, toggleModal }) => {
           </AppBar>
           <div style={{ marginTop: "15vh" }}>
             <TextField
+            error={isFormInvalidName}
+            helperText={isFormInvalidName && "Artist Name required"}
               id="outlined-basic"
               label="Artist Name"
               variant="outlined"
@@ -132,6 +148,8 @@ const AddArtist = ({ modalOpen, toggleModal }) => {
           </div>
           <div style={{ marginTop: "3vh" }}>
             <TextField
+              error={isFormInvalidEmail}
+              helperText={isFormInvalidEmail && "Email required"}
               id="outlined-basic"
               label="Email Id"
               variant="outlined"
@@ -152,7 +170,7 @@ const AddArtist = ({ modalOpen, toggleModal }) => {
               accept="image/*"
               style={{ display: "none" }}
               id="raised-button-file"
-              // value={image}
+              required
               onChange={(e) => setImage(e.target.files[0])}
               type="file"
             />

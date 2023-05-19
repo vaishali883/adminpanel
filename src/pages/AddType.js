@@ -21,7 +21,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
-  height: 350,
+  height: 400,
   bgcolor: "background.paper",
   textAlign: "center",
   color: "black",
@@ -34,6 +34,7 @@ const AddType = ({ modalOpen, toggleModal }) => {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
+  const [isFormInvalidName, setIsFormInvalidCName] = useState(false);
 
   const [value, setValue] = React.useState("active");
 
@@ -47,9 +48,15 @@ const AddType = ({ modalOpen, toggleModal }) => {
   }
 
   const save = () => {
+    if (typeName === "") {
+      setIsFormInvalidCName(true);
+    } else {
+      setIsFormInvalidCName(false);
+    }
     const data = new FormData();
     data.append("Music_type",typeName);
     data.append("Image",image);
+    if(!(typeName === "")  && image){
     axios
       .post("http://localhost:4000/typemusic/", data,{
         headers: {
@@ -66,6 +73,7 @@ const AddType = ({ modalOpen, toggleModal }) => {
         setMsg("Oops!! Something went wrong!!");
         setSeverity("error");
       });
+    }
   };
 
   return (
@@ -117,6 +125,8 @@ const AddType = ({ modalOpen, toggleModal }) => {
           </AppBar>
           <div style={{ marginTop: "15vh" }}>
             <TextField
+              error={isFormInvalidName}
+              helperText={isFormInvalidName && "Type Name required"}
               id="outlined-basic"
               label="Type Name"
               variant="outlined"

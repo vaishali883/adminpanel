@@ -44,6 +44,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 export default function EcommerceShop() {
   const [openFilter, setOpenFilter] = useState(false);
   const [modal, setModal] = useState(false);
+  const [filterName, setFilterName] = useState("");
   const dispatch = useDispatch()
 
   const formik = useFormik({
@@ -79,6 +80,23 @@ export default function EcommerceShop() {
   };
 
 
+  function mySearchFunction() {
+    let song;
+    let input = document.getElementById("searchBar").value;
+    input = input.toLowerCase();
+    let x = document.getElementsByClassName("ArtistList");
+    for (var i = 0; i < x.length; i++) {
+      if (!x[i].innerHTML.toLowerCase().includes(input)) {
+        x[i].style.display = "none";
+      } else {
+        console.log(x[i]);
+        x[i].style.display = "";
+        song = x[i];
+      }
+    }
+  }
+
+
   return (
     <Page title="Dashboard: Artist | Music-UI">
       <Container>
@@ -88,6 +106,8 @@ export default function EcommerceShop() {
           </Typography>
           <div style={{paddingBottom:'50px'}}>
           <SearchStyle
+           onKeyUp={() => mySearchFunction()}
+           id="searchBar"
             placeholder="Search Artist..."
             startAdornment={
               <InputAdornment position="start">

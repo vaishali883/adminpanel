@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Box } from "@mui/material";
 import axios from "axios";
 import SnackbarModule from "../../pages/sanckbar";
 import plusFill from "@iconify/icons-eva/plus-fill";
@@ -14,27 +17,26 @@ import Avatar from "@mui/material/Avatar";
 import { Link as RouterLink } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import AppBar from "@mui/material/AppBar";
-import { styled } from "@mui/material/styles";
-import { Box } from "@mui/material";
+
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Close from "@material-ui/icons/Close";
-import trash2Outline from "@iconify/icons-eva/trash-2-outline";
-import { Icon } from "@iconify/react";
 import { getAllSongData } from "../../action/songAction";
-import "./artistDetail.css";
+import { Icon } from "@iconify/react";
+import './typeDetail.css'
 
 const ProductImgStyle = styled("img")({
   top: 0,
   width: "20%",
   height: "45%",
-  marginTop: "7%",
-  marginLeft: "5%",
+  marginTop:'7%',
+  marginLeft:'5%',
   objectFit: "cover",
   position: "absolute",
-  borderRadius: "50%",
+  borderRadius: "10%"
 });
+
 
 const style = {
   position: "absolute",
@@ -49,19 +51,18 @@ const style = {
   borderRadius: "25px",
 };
 
-let data;
 
-const ArtistDetail = () => {
+const TypeDetail = () => {
+
   const [checked, setChecked] = React.useState([1]);
   const [modal, setModal] = React.useState(false);
   const [song, setSong] = React.useState([]);
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
-
   const songsData = useSelector((state) => state.songs.songData);
-  const songs = JSON.parse(localStorage.getItem("artistName")).songs;
-  const artist_id = JSON.parse(localStorage.getItem("artistName")).id;
+  const songs = JSON.parse(localStorage.getItem("typeData")).songs;
+  const artist_id = JSON.parse(localStorage.getItem("typeData")).id;
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -95,7 +96,7 @@ const ArtistDetail = () => {
   }, [songsData]);
   console.log(song);
   const image = `http://localhost:4000/${
-    JSON.parse(localStorage.getItem("artistName")).image
+    JSON.parse(localStorage.getItem("typeData")).image
   }`;
 
 
@@ -125,12 +126,12 @@ const ArtistDetail = () => {
       }
     })
     localStorage.setItem(
-      "artistName",
-      JSON.stringify({ name: JSON.parse(localStorage.getItem("artistName")).name, image: JSON.parse(localStorage.getItem("artistName")).image,songs:array,id:artist_id })
+      "typeData",
+      JSON.stringify({ name: JSON.parse(localStorage.getItem("typeData")).name, image: JSON.parse(localStorage.getItem("typeData")).image,songs:array,id:artist_id })
     );
     if(data){
     axios
-      .put(`http://localhost:4000/artist/${artist_id}`, data,{
+      .put(`http://localhost:4000/typemusic/${artist_id}`, data,{
         headers: {
           'content-type': 'multipart/form-data' // do not forget this 
          }
@@ -150,15 +151,13 @@ const ArtistDetail = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-start" }}>
+      <div style={{ display: "flex", justifyContent: 'flex-start' }}>
         <div>
           <Box>
             <ProductImgStyle src={image} />
           </Box>
         </div>
-        <h1 style={{ marginLeft: "40%", marginTop: "5%", fontWeight: "bold" }}>
-          {JSON.parse(localStorage.getItem("artistName")).name}
-        </h1>
+        <h1 style={{marginLeft:'40%',marginTop:'5%',fontWeight:'bold'}}>{JSON.parse(localStorage.getItem("typeData")).type}</h1>
         <Button
           variant="contained"
           component={RouterLink}
@@ -170,51 +169,31 @@ const ArtistDetail = () => {
           Assign Song
         </Button>
       </div>
-      <div className="wrapper" style={{ marginTop: "20%" }}>
-        <div className="container_artist">
-          <div className="body_content_artist">
-            <div className="title">
+      <div className="wrapper" style={{marginTop:'20%'}}>
+      <div className="container_artist">
+            <div className="body_content_artist">
+              <div className="title">
               <span>Title</span>
-              <span>Artist</span>
-              <span>Song</span>
-              <span>Delete</span>
-            </div>
-            <div className="list">
-              {songs
-                ? songs.map((song) => {
-                    return (
-                      <div className="list_block">
-                        <span className="song_title">{song.name}</span>
-                        <span className="song_artist">{song.artistName}</span>
-                        <span className="track">
-                          <audio id="audio" controls>
-                            <source
-                              src={`http://localhost:4000/songs/name/?name=${song.music}`}
-                              type="audio/mp3"
-                            ></source>
-                          </audio>
-                        </span>
-                        <span>
-                          {/* {" "}
-                          <Icon
-                            style={{
-                              marginRight: "15%",
-                              cursor: "pointer",
-                            }}
-                            icon={trash2Outline}
-                            width={34}
-                            height={24}
-                          /> */}
-                        </span>
-                      </div>
-                    );
-                  })
-                : ""}
+                <span>Artist</span>
+                <span>Song</span>
+                <span>Delete</span>
+              </div>
+              <div className="list">
+                 { songs ? songs.map(song => 
+                  { 
+                    return <div className="list_block">
+                  <span className="song_title">{song.name}</span>
+                  <span className="song_artist">{song.artistName}</span>
+                  <span className="track"><audio id="audio" controls><source src={`http://localhost:4000/songs/name/?name=${song.music}`} type="audio/mp3"></source></audio></span>
+                 
+                  </div>
+                }):''
+                }
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <SnackbarModule
+        <SnackbarModule
         open={open}
         message={msg}
         handleSnackbarClose={handleSnackbarClose}
@@ -353,4 +332,4 @@ const ArtistDetail = () => {
   );
 };
 
-export default ArtistDetail;
+export default TypeDetail;

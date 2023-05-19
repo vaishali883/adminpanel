@@ -47,7 +47,7 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate("/dashboard", { replace: true });
+      save()
     },
   });
 
@@ -65,14 +65,16 @@ export default function LoginForm() {
       password: formik.values.password,
     };
     axios
-      .post(
+      .get(
         `http://localhost:4000/adminUser/login/?name=${data.user_name}&password=${data.password}`
       )
       .then((res) => {
+        localStorage.setItem("userName",res.data.order[0].user_name);
+        localStorage.setItem("userEmail",res.data.order[0].Email);
         setOpen(true);
         setMsg("User Login Successfully!");
         setSeverity("success");
-        navigate("/dashboard/app");
+        navigate("/dashboard/app", { replace: true });
       })
       .catch(() => {
         setOpen(true);
@@ -138,9 +140,7 @@ export default function LoginForm() {
               label="Remember me"
             />
 
-            <Link component={RouterLink} variant="subtitle2" to="#">
-              Forgot password?
-            </Link>
+            
           </Stack>
 
           <LoadingButton

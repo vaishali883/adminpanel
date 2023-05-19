@@ -38,16 +38,16 @@ const sidebarConfig = [
     path: '/dashboard/songList',
     icon: getIcon(MusicFill)
   },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
-  },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon(personAddFill)
-  },
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: getIcon(lockFill)
+  // },
+  // {
+  //   title: 'register',
+  //   path: '/register',
+  //   icon: getIcon(personAddFill)
+  // },
   // {
   //   title: 'Not found',
   //   path: '/404',

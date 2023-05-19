@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink,useNavigate } from "react-router-dom";
 // material
 import { Box, Card, Link, Typography, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -36,7 +36,8 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { Image, Music_type,_id } = product;
+  const navigate = useNavigate();
+  const { Image, Music_type,_id,songs } = product;
   const [model, setModel] = useState(false);
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
@@ -56,19 +57,28 @@ export default function ShopProductCard({ product }) {
       setSeverity("error");
     });
   }
+
+  const typePage = () => {
+    localStorage.setItem(
+      "typeData",
+      JSON.stringify({ type: Music_type, image: Image,songs:songs,id : _id })
+    );
+    navigate("/dashboard/typePage");
+  }
+
   const handleSnackbarClose = () => {
     setOpen(false);
     window.location.reload();
   };
   return (
-    <div>  <SnackbarModule
+    <div className="typeList">  <SnackbarModule
     open={open}
     message={msg}
     handleSnackbarClose={handleSnackbarClose}
     severity={severity}
   /><Card>
       <Box sx={{ pt: "90%", position: "relative" }}>
-        <ProductImgStyle src={`http://localhost:4000/${Image}`} />
+        <ProductImgStyle src={`http://localhost:4000/${Image}`} onClick={() => typePage()} />
       </Box>
       <Stack spacing={2} sx={{ p: 1 }}>
         <Link

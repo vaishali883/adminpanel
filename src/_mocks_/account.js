@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------
 
 const account = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
+  displayName: localStorage.getItem("userName"),
+  email: localStorage.getItem("userEmail"),
   photoURL: '/static/mock-images/avatars/avatar_default.jpg'
 };
 

@@ -35,6 +35,7 @@ const EditType = ({ modalOpen, toggleModal, data }) => {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
+  const [isFormInvalidName, setIsFormInvalidCName] = useState(false);
 
   useEffect(() => {
     setTypename(data.Music_type);
@@ -47,8 +48,14 @@ const EditType = ({ modalOpen, toggleModal, data }) => {
   };
 
   const save = () => {
+    if (typename === "") {
+      setIsFormInvalidCName(true);
+    } else {
+      setIsFormInvalidCName(false);
+    }
     const data = new FormData();
     data.append("Music_type", typename);
+    if(!(typename === "")){
     axios
       .put(`http://localhost:4000/typemusic/${id}`, data, {
         headers: {
@@ -65,6 +72,7 @@ const EditType = ({ modalOpen, toggleModal, data }) => {
         setMsg("Oops!! Something went wrong!!");
         setSeverity("error");
       });
+    }
   };
 
   console.log(image);
@@ -118,6 +126,8 @@ const EditType = ({ modalOpen, toggleModal, data }) => {
           </AppBar>
           <div style={{ marginTop: "15vh" }}>
             <TextField
+            error={isFormInvalidName}
+            helperText={isFormInvalidName && "Type Name required"}
               id="outlined-basic"
               label="Type Name"
               variant="outlined"

@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useState,useEffect } from "react";
 // material
 import { Icon } from "@iconify/react";
-import { Button } from "@mui/material";
+  import { Button } from "@mui/material";
 import {
   Container,
   Stack,
@@ -79,6 +79,22 @@ export default function EcommerceShop() {
     resetForm();
   };
 
+  function mySearchFunction() {
+    let song;
+    let input = document.getElementById("searchBar").value;
+    input = input.toLowerCase();
+    let x = document.getElementsByClassName("typeList");
+    for (var i = 0; i < x.length; i++) {
+      if (!x[i].innerHTML.toLowerCase().includes(input)) {
+        x[i].style.display = "none";
+      } else {
+        console.log(x[i]);
+        x[i].style.display = "";
+        song = x[i];
+      }
+    }
+  }
+
   return (
     <Page title="Dashboard: Types | Music-UI">
       <Container>
@@ -88,8 +104,8 @@ export default function EcommerceShop() {
           </Typography>
           <div style={{ paddingBottom: "50px" }}>
             <SearchStyle
-              // value={filterName}
-              // onChange={onFilterName}
+               onKeyUp={() => mySearchFunction()}
+               id="searchBar"
               placeholder="Search Types..."
               startAdornment={
                 <InputAdornment position="start">

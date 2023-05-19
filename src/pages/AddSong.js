@@ -21,7 +21,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
-  height: 600,
+  height: 500,
   bgcolor: "background.paper",
   textAlign: "center",
   color: "black",
@@ -29,13 +29,14 @@ const style = {
 };
 
 const AddSong = ({ modalOpen, toggleModal }) => {
-  const [username, setUsername] = useState("");
-  const [pass, setPass] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState(true);
+  const [songname, setSongname] = useState("");
+  const [artistname, setArtistname] = useState("");
+  const [songFile, setSongFile] = useState();
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
+  const [isFormInvalidName, setIsFormInvalidCName] = useState(false);
+  const [isFormInvalidArtistname, setIsFormInvalidArtistName] = useState(false);
 
   const [value, setValue] = React.useState("active");
 
@@ -46,19 +47,33 @@ const AddSong = ({ modalOpen, toggleModal }) => {
   const handleSnackbarClose = () => {
     setOpen(false);
     window.location.reload();
-  }
+  };
 
   const save = () => {
-    const data = {
-      user_name: username,
-      password: pass,
-      Email: email,
-    };
+    if (songname === "") {
+      setIsFormInvalidCName(true);
+    } else {
+      setIsFormInvalidCName(false);
+    }
+    if (artistname === "") {
+      setIsFormInvalidArtistName(true);
+    } else {
+      setIsFormInvalidArtistName(false);
+    }
+    const data = new FormData();
+    data.append("name",songname);
+    data.append("artistName",artistname);
+    data.append("music",songFile);
+    if(!(songname === "") && !(artistname === "") && songFile){
     axios
-      .post("http://localhost:4000/api/", data)
+      .post("http://localhost:4000/songs/", data,{
+        headers: {
+          'content-type': 'multipart/form-data' // do not forget this 
+         }
+      } )
       .then((res) => {
         setOpen(true);
-        setMsg("User Added Successfully!");
+        setMsg("Song Added Successfully!");
         setSeverity("success");
       })
       .catch(() => {
@@ -66,16 +81,18 @@ const AddSong = ({ modalOpen, toggleModal }) => {
         setMsg("Oops!! Something went wrong!!");
         setSeverity("error");
       });
+    }
   };
+
 
   return (
     <div>
-        <SnackbarModule
-          open={open}
-          message={msg}
-          handleSnackbarClose={handleSnackbarClose}
-          severity={severity}
-        />
+      <SnackbarModule
+        open={open}
+        message={msg}
+        handleSnackbarClose={handleSnackbarClose}
+        severity={severity}
+      />
       <Modal
         open={modalOpen}
         onClose={toggleModal}
@@ -102,7 +119,7 @@ const AddSong = ({ modalOpen, toggleModal }) => {
                 onClick={toggleModal}
                 aria-label="close"
               ></IconButton>
-              <h3 style={{fontSize:'30px'}}> Add Song </h3>
+              <h3 style={{ fontSize: "30px" }}> Add Song </h3>
               <IconButton
                 edge="start"
                 color="inherit"
@@ -117,89 +134,56 @@ const AddSong = ({ modalOpen, toggleModal }) => {
           </AppBar>
           <div style={{ marginTop: "15vh" }}>
             <TextField
+             error={isFormInvalidName}
+             helperText={isFormInvalidName && "Song Name required"}
               id="outlined-basic"
-              label="User Name"
+              label="Song Name"
               variant="outlined"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={songname}
+              onChange={(e) => setSongname(e.target.value)}
               style={{ width: "80%" }}
             />
           </div>
           <div style={{ marginTop: "3vh" }}>
             <TextField
+             error={isFormInvalidArtistname}
+             helperText={isFormInvalidArtistname && "Artist Name required"}
               id="outlined-basic"
-              label="Password"
-              value={pass}
-              onChange={(e) => setPass(e.target.value)}
+              label="Artist Name"
               variant="outlined"
               style={{ width: "80%" }}
+              value={artistname}
+              onChange={(e) => setArtistname(e.target.value)}
             />
           </div>
-          <div style={{ marginTop: "3vh" }}>
-            <TextField
-              id="outlined-basic"
-              label="Email Id"
-              variant="outlined"
-              style={{ width: "80%" }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+          <div
+            style={{
+              marginTop: "4vh",
+              fontSize: "18px",
+              fontWeight: "600",
+            }}
+          >
+            Song File Enter &nbsp; : &nbsp;
+            <input
+              accept="mp3/*"
+              style={{ display: "none" }}
+              id="raised-button-file"
+              // value={image}
+              onChange={(e) => setSongFile(e.target.files[0])}
+              type="file"
             />
-          </div>
-          {/* <div style={{ marginTop: "3vh" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                marginLeft: "11%",
-                fontSize: "19px",
-              }}
-            >
-              Verified{" "}
-              <span style={{ marginLeft: "5%" }}>
-                <Switch
-                  checked={role}
-                  onChange={(e) => setRole(e.target.checked)}
-                />
-              </span>
-            </div>
-          </div> */}
-          <div style={{ marginTop: "3vh" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                marginLeft: "11%",
-                fontSize: "19px",
-              }}
-            >
-              Status{" "}
-              <span style={{ marginLeft: "5%" }}>
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  value={value}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="banned"
-                    control={<Radio />}
-                    label="Banned"
-                  />
-                  <FormControlLabel
-                    value="active"
-                    control={<Radio />}
-                    label="Active"
-                  />
-                </RadioGroup>
-              </span>
-            </div>
+            <label htmlFor="raised-button-file" style={{marginLeft:'15px'}}>
+              <Button variant="raised" component="span" style={{backgroundColor:'#46ac55',color:'white'}}>
+                Upload
+              </Button>
+            </label>
+            <span style={{fontWeight:'300',fontSize:'17px',marginLeft:'15px'}}>{songFile ? songFile.name : ''}</span>
           </div>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "3%",
-              marginRight: "5%",
+              marginTop: "8%",
             }}
           >
             <Button

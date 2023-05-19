@@ -21,7 +21,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
-  height: 450,
+  height: 420,
   bgcolor: "background.paper",
   textAlign: "center",
   color: "black",
@@ -36,6 +36,8 @@ const EditArtist = ({ modalOpen, toggleModal, data }) => {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
+  const [isFormInvalidName, setIsFormInvalidCName] = useState(false);
+  const [isFormInvalidEmail, setIsFormInvalidEmail] = useState(false);
 
   useEffect(() => {
       setArtistname(data.artist_name);
@@ -49,9 +51,20 @@ const EditArtist = ({ modalOpen, toggleModal, data }) => {
   };
 
   const save = () => {
+    if (artistname === "") {
+      setIsFormInvalidCName(true);
+    } else {
+      setIsFormInvalidCName(false);
+    }
+    if (email === "") {
+      setIsFormInvalidEmail(true);
+    } else {
+      setIsFormInvalidEmail(false);
+    }
     const data = new FormData();
     data.append("artist_name", artistname);
     data.append("Email", email);
+    if(!(artistname === "") && !(email === "")){
     axios
       .put(`http://localhost:4000/artist/${id}`, data, {
         headers: {
@@ -68,6 +81,7 @@ const EditArtist = ({ modalOpen, toggleModal, data }) => {
         setMsg("Oops!! Something went wrong!!");
         setSeverity("error");
       });
+    }
   };
 
   console.log(image);
@@ -121,6 +135,8 @@ const EditArtist = ({ modalOpen, toggleModal, data }) => {
           </AppBar>
           <div style={{ marginTop: "15vh" }}>
             <TextField
+             error={isFormInvalidName}
+             helperText={isFormInvalidName && "Artist Name required"}
               id="outlined-basic"
               label="Artist Name"
               variant="outlined"
@@ -131,6 +147,8 @@ const EditArtist = ({ modalOpen, toggleModal, data }) => {
           </div>
           <div style={{ marginTop: "3vh" }}>
             <TextField
+             error={isFormInvalidEmail}
+             helperText={isFormInvalidEmail && "Email required"}
               id="outlined-basic"
               label="Email Id"
               variant="outlined"

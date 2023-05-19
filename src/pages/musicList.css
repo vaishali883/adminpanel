@@ -110,29 +110,40 @@
     padding: 20px 5px;
     border-radius: 10px;
     display: flex;
-  }
+  } 
   .body_content .title span {
     font-size: 20px;
   }
   .body_content .title span:nth-child(1),
   .body_content .list_block span:nth-child(1) {
-    width: 8%;
+    width: 25%;
+    margin-left: 1%;
+    display: flex;
+    justify-content: center ;
   }
   .body_content .title span:nth-child(2),
   .body_content .list_block span:nth-child(2) {
-    width: 35%;
+    width: 28%;
+    display: flex;
+    justify-content: center ;
   }
   .body_content .title span:nth-child(3),
   .body_content .list_block span:nth-child(3) {
-    width: 16%;
+    width: 38%;
+    display: flex;
+    justify-content: center ;
   }
   .body_content .title span:nth-child(4),
   .body_content .list_block span:nth-child(4) {
-    width: 16%;
+    width: 6%;
+    display: flex;
+    justify-content: center ;
   }
   .body_content .title span:nth-child(5),
   .body_content .list_block span:nth-child(5) {
     width: 10%;
+    display: flex;
+    justify-content: center ;
   }
   .body_content .title span:nth-child(6),
   .body_content .list_block span:nth-child(6) {
@@ -140,7 +151,7 @@
   }
   .body_content .title span:nth-child(7),
   .body_content .list_block span:nth-child(7) {
-    width: 30%;
+    width: 10%;
   }
 
   .body_content .list_block {
@@ -161,7 +172,7 @@
 
   .body_content .list_block .download_btn {
     position: absolute;
-    right: 30px;
+    right: 90px;
   }
   
   .body_content .list_block .music_btn {
@@ -185,7 +196,7 @@
     list-style: none;
     height: 40px;
     width: 3px;
-    background-color: #fff;
+    background-color: black;
     display: inline-block;
     margin: 0 5px;
     transform-origin: bottom;
@@ -233,7 +244,7 @@
   }
 
   .body_content .list_block .track {
-    display: none;
+    /* display: none; */
   }
 
   .searchBox {

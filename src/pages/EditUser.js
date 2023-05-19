@@ -21,7 +21,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
-  height: 600,
+  height: 650,
   bgcolor: "background.paper",
   textAlign: "center",
   color: "black",
@@ -39,6 +39,10 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
+  const [isFormInvalid, setIsFormInvalid] = useState(false);
+  const [isFormInvalidEmail, setIsFormInvalidEmail] = useState(false);
+  const [isFormInvalidbirth, setisFormInvalidBirth] = useState("");
+  const [isFormInvalidphhno, setisFormInvalidPhnno] = useState();
 
   const handleChange = (event) => {
     setGender(event.target.value);
@@ -59,6 +63,27 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
   },[data]);
 
   const save = () => {
+    if (username === "") {
+      setIsFormInvalid(true);
+    } else {
+      setIsFormInvalid(false);
+    }
+    if (email === "") {
+      setIsFormInvalidEmail(true);
+    } else {
+      setIsFormInvalidEmail(false);
+    }
+    if (birth === "") {
+      setisFormInvalidBirth(true);
+    } else {
+      setisFormInvalidBirth(false);
+    }
+    if (phhno === "") {
+      setisFormInvalidPhnno(true);
+    } else {
+      setisFormInvalidPhnno(false);
+    }
+    if(!(email === "") && !(phhno === "") && !(birth === "") && !(username === "") ){
     const data = {
       user_name: username,
       Email: email,
@@ -78,6 +103,7 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
         setMsg("Oops!! Something went wrong!!");
         setSeverity("error");
       });
+    }
   };
 
   return (
@@ -129,6 +155,8 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
           </AppBar>
           <div style={{ marginTop: "15vh" }}>
             <TextField
+            error={isFormInvalid}
+            helperText={isFormInvalid && "User Name required"}
               id="outlined-basic"
               label="User Name"
               variant="outlined"
@@ -139,6 +167,8 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
           </div>
           <div style={{ marginTop: "3vh" }}>
             <TextField
+            error={isFormInvalidEmail}
+            helperText={isFormInvalidEmail && "Email required"}
               id="outlined-basic"
               label="Email Id"
               variant="outlined"
@@ -150,6 +180,8 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
 
           <div style={{ marginTop: "2vh" }}>
             <TextField
+            error={isFormInvalidbirth}
+            helperText={isFormInvalidbirth && "Birth Date required"}
               id="outlined-basic"
               label="BirthDay"
               variant="outlined"
@@ -160,6 +192,8 @@ const EditUser = ({ modalOpen, toggleModal, data }) => {
           </div>
           <div style={{ marginTop: "2vh" }}>
             <TextField
+             error={isFormInvalidphhno}
+             helperText={isFormInvalidphhno && "Phone Number required"}
               id="outlined-basic"
               label="Phone Number"
               variant="outlined"

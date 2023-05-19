@@ -36,12 +36,12 @@ export default function ShopProductCard({ product }) {
   const [msg, setMsg] = useState("");
   const [severity, setSeverity] = useState("");
 
-  const { artist_Image, artist_name,_id } = product;
+  const { artist_Image, artist_name,_id,songs } = product;
 
   const artistPage = () => {
     localStorage.setItem(
       "artistName",
-      JSON.stringify({ name: artist_name, image: artist_Image })
+      JSON.stringify({ name: artist_name, image: artist_Image,songs:songs,id:_id })
     );
     navigate("/dashboard/artistPage");
   };
@@ -66,7 +66,7 @@ export default function ShopProductCard({ product }) {
   }
 
   return (
-    <div style={{ backgroundColor: "lightcyan", padding: "20px",borderRadius:'20px' }}>
+    <div className="ArtistList" style={{ backgroundColor: "lightcyan", padding: "20px",borderRadius:'20px' }}>
        <SnackbarModule
         open={open}
         message={msg}
